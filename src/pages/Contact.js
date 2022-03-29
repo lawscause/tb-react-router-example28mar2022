@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 //https://www.w3schools.com/bootstrap5/bootstrap_forms.php
 const Contact = () => {
@@ -21,7 +21,16 @@ const Contact = () => {
       email: contactEmail,
       phone: contactPhone,
     });
+
+    setInputs({});
   };
+
+  useEffect(() => {
+    if (contact.name !== undefined) {
+      let message = `The contact named ${contact.name} with email (${contact.email}) and the phone number (${contact.phone}) was submitted`;
+      alert(message);
+    }
+  }, [contact]);
 
   return (
     <>
@@ -38,6 +47,7 @@ const Contact = () => {
             type="text"
             value={inputs.tbName || ""}
             onChange={handleChange}
+            required
           ></input>
         </div>
         <div className="mb-3 mt-3">
@@ -51,6 +61,7 @@ const Contact = () => {
             type="email"
             value={inputs.tbEmail || ""}
             onChange={handleChange}
+            required
           ></input>
         </div>
         <div className="mb-3 mt-3">
@@ -64,43 +75,15 @@ const Contact = () => {
             type="number"
             value={inputs.tbPhone || ""}
             onChange={handleChange}
+            required
           ></input>
         </div>
         <button type="submit" className="btn btn-primary">
           Submit
         </button>
       </form>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone #</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{contact.name}</td>
-            <td>{contact.email}</td>
-            <td>{contact.phone}</td>
-          </tr>
-        </tbody>
-      </table>
     </>
   );
 };
 
 export default Contact;
-/*
-values(tbName: "Ma", tbEmail: "me@me.com", tbPhone: "000-000-0000");
-
-event - onChange
-target - tbName
-value - "Mar"
-
-
-{...values, [name]: value}
-{ tbEmail: "me@me.com", tbPhone: "000-000-0000",tbName: "Mar"}
-
-{ tbEmail: "me@me.com", tbPhone: "000-000-0000",tbName: "Mark"}
-*/
