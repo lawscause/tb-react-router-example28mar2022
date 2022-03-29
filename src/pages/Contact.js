@@ -1,17 +1,9 @@
-import { useState, useEffect } from "react";
-//https://www.npmjs.com/package/react-uuid
-import uuid from "react-uuid";
+import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 //https://www.w3schools.com/bootstrap5/bootstrap_forms.php
 const Contact = () => {
   const [inputs, setInputs] = useState({});
   const [contact, setContact] = useState({});
-  const [contacts, setContacts] = useState(() => {
-    // getting stored value
-    const saved = localStorage.getItem("contacts");
-    const initialValue = JSON.parse(saved);
-    return initialValue || "";
-  });
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -21,37 +13,15 @@ const Contact = () => {
 
   const handleFormSubmitEvent = (e) => {
     e.preventDefault();
-    const newId = uuid();
     const contactName = inputs.tbName;
     const contactEmail = inputs.tbEmail;
     const contactPhone = inputs.tbPhone;
     setContact({
-      id: newId,
       name: contactName,
       email: contactEmail,
       phone: contactPhone,
     });
   };
-
-
-  useEffect(() => {
-    // storing input name
-
-    console.log("useEffect A");
-    console.log("useEffect-contacts contacts:", contacts);
-    localStorage.setItem("contacts", JSON.stringify(contacts));
-  }, [contacts]);
-
-  useEffect(() => {
-    console.log("useEffect B");
-    if(contact.name) {
-      console.log("useEffect-contact contact:", contact);
-      console.log("useEffect-contact contacts:", contacts);
-      setContacts([contact, ...contacts]);
-      console.log("useEffect-contact contacts:", contacts);
-    }
-    
-  }, [contact]);
 
   return (
     <>
@@ -103,19 +73,17 @@ const Contact = () => {
       <table>
         <thead>
           <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Phone #</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone #</th>
           </tr>
         </thead>
         <tbody>
-        {contacts.map((contactInfo) => (
-            <tr key={contactInfo.id}>
-              <td>{contactInfo.name}</td>
-              <td>{contactInfo.email}</td>
-              <td>{contactInfo.phone}</td>
-            </tr>
-          ))}
+          <tr>
+            <td>{contact.name}</td>
+            <td>{contact.email}</td>
+            <td>{contact.phone}</td>
+          </tr>
         </tbody>
       </table>
     </>
